@@ -3,8 +3,8 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
 
-  var width = 600;    // We will scale the photo width to this
-  var height = 0;     // This will be computed based on the input stream
+  var width = 1280;    // We will scale the photo width to this
+  var height = 720;     // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
   // video from the camera. Obviously, we start at false.
@@ -18,6 +18,7 @@
   var canvas = null;
   var photo = null;
   var startbutton = null;
+  var downloadbutton = null;
 
 
   function startup() {
@@ -25,6 +26,7 @@
     canvas = document.getElementById('canvas');
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
+    downloadbutton = document.getElementById('downloadbutton');
 
     navigator.getMedia = ( navigator.getUserMedia ||
                            navigator.webkitGetUserMedia ||
@@ -74,6 +76,10 @@
       ev.preventDefault();
     }, false);
 
+    downloadbutton.addEventListener('click', function(){
+      downloadURI("", "helloWorld.jpg");
+    }, false);
+
     clearphoto();
   }
 
@@ -87,6 +93,7 @@
 
     var data = canvas.toDataURL('image/png');
     photo.setAttribute('src', data);
+    document.getElementById('link_a').setAttribute('href','');
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -104,10 +111,22 @@
 
       var data = canvas.toDataURL('image/png');
       photo.setAttribute('src', data);
+
+      document.getElementById('link_a').setAttribute('href',data);
     } else {
       clearphoto();
     }
   }
+
+  function downloadURI(uri, name) {
+  var link = document.createElement("a");
+  link.download = name;
+  link.href = uri;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  delete link;
+}
 
   // Set up our event listener to run the startup process
   // once loading is complete.
