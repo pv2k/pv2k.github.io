@@ -107,16 +107,16 @@
     if (width && height) {
       canvas.width = width;
       canvas.height = height;
-      var a=document.getElementById('blur').value;
+      var a;
+      a=document.getElementById('blur').value;
       context.filter="blur("+a+"px)";
-      a=(document.getElementById('grayscale').value)*100;
-      context.filter="grayscale("+a+"%)";
       a=(document.getElementById('brightness').value);
       context.filter="brightness("+a+")";
       a=(document.getElementById('contrast').value)*100;
       context.filter="contrast("+a+"%)";
       context.drawImage(video, 0, 0, width, height);
-
+      a=(document.getElementById('grayscale').value)*100;
+      context.filter="grayscale("+a+"%)";
       var data = canvas.toDataURL('image/png');
       photo.setAttribute('src', data);
 
