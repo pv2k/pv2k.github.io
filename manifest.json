@@ -1,0 +1,24 @@
+{
+  "manifest_version" : 2,
+  "name" : "CrazySnap",
+  "version" : "1.0",
+
+  "description" : "Take images and filter them",
+
+  "icons" : {
+      "48" : "icons/pic.png"
+  },
+
+  "browser_action" : {
+    "default_icon" : "icons/pic.png",
+    "default_title" : "Take a Snap"
+  },
+
+  "permissions" : [
+  "tabs"
+],
+
+  "background" : {
+    "scripts" : ["background.js"]
+  }
+}
