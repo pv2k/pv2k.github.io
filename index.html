@@ -5,6 +5,44 @@
 	<link rel="stylesheet" href="main.css" type="text/css" media="all">
 	<script src="capture.js">
 	</script>
+  <style>
+  @-webkit-keyframes blur-anim {
+    from { -webkit-filter: blur(0); }
+    to   { -webkit-filter: blur(10px); }
+  }
+  .blur {
+    -webkit-animation: blur-anim 0.5s linear;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-iteration-count: infinite;
+  }
+  @-webkit-keyframes grayscale-anim {
+    from { -webkit-filter: grayscale(0); }
+    to   { -webkit-filter: grayscale(1); }
+  }
+  .grayscale {
+    -webkit-animation: grayscale-anim 2s ease-in-out;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-iteration-count: infinite;
+  }/*}
+  @-webkit-keyframes brightness-anim {
+    from { -webkit-filter: brightness(0); }
+    to   { -webkit-filter: brightness(1); }
+  }
+  .brightness {
+    -webkit-animation: brightness-anim 2s ease-in-out;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-iteration-count: infinite;
+  }
+  @-webkit-keyframes contrast-anim {
+    from { -webkit-filter: contrast(0); }
+    to   { -webkit-filter: contrast(1); }
+  }
+  .contrast {
+    -webkit-animation: contrast-anim 2s ease-in-out;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-iteration-count: infinite;
+  }*/
+  </style>
 </head>
 <body>
 <div class="contentarea">
@@ -21,6 +59,35 @@
     <a href="" id="link_a" download>Download Photo</a>
   </div>
   </div>
-</div>
+  <br/><br/><br/><br/>
+  <span><span>blur</span><input id="blur" oninput="set('blur', this.value + 'px');" type="range"  step="1" min="0" max="10"></span>
+  <span><span>grayscale</span><input id="grayscale" oninput="set('grayscale', this.valueAsNumber);" type="range" step="0.1" min="0" max="1"></span>
+  <span><span>brightness</span><input id="brightness" oninput="set('brightness', this.valueAsNumber);" type="range" step="0.1" min="0" max="1"></span>
+  <span><span>contrast</span><input id="contrast" oninput="set('contrast', this.valueAsNumber);" type="range" step="0.1" min="0" max="1"></span>
+<script>
+var FILTER_VALS = {};
+var el = document.getElementById('video');
+
+function set(filter, value) {
+  FILTER_VALS[filter] = typeof value == 'number' ? Math.round(value * 10) / 10 : value;
+  if (value == 0 || (typeof value == 'string' && value.indexOf('0') == 0)) {
+    delete FILTER_VALS[filter];
+  }
+  render();
+}
+
+function render() {
+  var vals = [];
+  Object.keys(FILTER_VALS).sort().forEach(function(key, i) {
+    vals.push(key + '(' + FILTER_VALS[key] + ')');
+  });
+  var val = vals.join(' ');
+  el.style.webkitFilter = val;
+
+  //document.querySelector('output').textContent = '-webkit-filter: ' + (val ? val : 'none') + ';';
+}
+</script>
+
+
 </body>
 </html>
